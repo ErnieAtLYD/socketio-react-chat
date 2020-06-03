@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import socketIo from '../utils/socket-io';
+import ChatFooter from './ChatFooter';
+import ChatMessages from './ChatMessages';
 
 const Chat = () => {
   const [username, setUsername] = useState('');
@@ -30,38 +32,15 @@ const Chat = () => {
           <div className="card">
             <div className="card-body">
               <div className="card-title">Global Chat</div>
-              <div className="messages">
-                {chats.map((chat) => {
-                  return (
-                    <div>
-                      {chat.author}: {chat.message}
-                    </div>
-                  );
-                })}
-              </div>
+              <ChatMessages chats={chats} />
             </div>
-            <div className="card-footer">
-              <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="form-control"
-              />
-              <input
-                type="text"
-                placeholder="Message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="form-control"
-              />
-              <button
-                onClick={sendMessage}
-                className="btn btn-primary form-control"
-              >
-                Send
-              </button>
-            </div>
+            <ChatFooter
+              username={username}
+              setUsername={setUsername}
+              message={message}
+              setMessage={setMessage}
+              sendMessage={sendMessage}
+            />
           </div>
         </div>
       </div>
