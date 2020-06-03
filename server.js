@@ -6,24 +6,29 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// JUST FOR DEMO PURPOSES, PUT YOUR ACTUAL API CODE HERE
-app.get('/api/demo', (request, response) => {
-  response.json({
-    message: 'Hello from server.js'
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
+io.on('connection', (socket) => {
+  console.log('a user is connected', socket.id);
+
+  socket.on('SEND_MESSAGE', function (data) {
+    io.emit('RECEIVE_MESSAGE', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('...and disconnected');
   });
 });
-// END DEMO
 
 if (process.env.NODE_ENV === 'production') {
-  // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
-  // Handle React routing, return all requests to React app
   app.get('*', (request, response) => {
     response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
 
 const port = process.env.PORT || 8080;
-app.listen(port, () => {
+http.listen(port, () => {
   console.log(`API listening on port ${port}...`);
 });
