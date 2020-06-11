@@ -27,23 +27,14 @@ const Chat = () => {
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-4">
-          <div className="card">
-            <div className="card-body">
-              <div className="card-title">Global Chat</div>
-              <ChatMessages chats={chats} />
-            </div>
-            <ChatFooter
-              username={username}
-              setUsername={setUsername}
-              message={message}
-              setMessage={setMessage}
-              sendMessage={sendMessage}
-            />
-          </div>
-        </div>
-      </div>
+      <ChatMessages chats={chats} />
+      <ChatFooter
+        username={username}
+        setUsername={setUsername}
+        message={message}
+        setMessage={setMessage}
+        sendMessage={sendMessage}
+      />
     </div>
   );
 };
